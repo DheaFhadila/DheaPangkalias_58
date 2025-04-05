@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validator Notasi Ilmiah</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffffff, #8eb5f4);
+      color: #fff;
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+    }
+    header {
+      background: rgb(2, 9, 46);
+      padding: 20px;
+      font-size: 2em;
+      font-weight: bold;
+      border-bottom: 4px solid #fff;
+    }
+    nav {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    nav a {
+      color: #01105a;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    nav a:hover {
+      color: #8aaee7;
+    }
+    main {
+      padding: 40px 20px;
+    }
+    section {
+      display: none;
+      margin: 30px auto;
+      max-width: 600px;
+      background: rgb(27, 11, 72);
+      padding: 30px;
+      border-radius: 12px;
+    }
+    section.active {
+      display: block;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #47d3e2;
+      color: #200d6e;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #0f0b2d;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <header>Notasi Ilmiah Validator</header>
+  <nav>
+    <a onclick="showSection('file')">File</a>
+    <a onclick="showSection('edit')">Edit</a>
+    <a onclick="showSection('run')">Run</a>
+    <a onclick="showSection('about')">About</a>
+  </nav>
+
+  <main>
+    <section id="file">
+      <h2>File</h2>
+      <input type="file" onchange="readFile(this)">
+      <pre id="fileResult"></pre>
+    </section>
+
+    <section id="edit">
+      <h2>Edit</h2>
+      <textarea id="editor" rows="6">Tulis sesuatu di sini...</textarea>
+    </section>
+
+    <section id="run" class="active">
+      <h2>Validasi Notasi Ilmiah</h2>
+      <input type="text" id="inputNumber" placeholder="Contoh: 1.23e+3">
+      <br>
+      <button onclick="validateNumber()">Validasi</button>
+      <p id="message"></p>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>Name: Dhea Fhadila Pangkalias</p>
+      <p>NIM: 231011060058</p>
+      <p>Study Program: Information System (B)</p>
+    </section>
+  </main>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function validateNumber() {
+      const input = document.getElementById("inputNumber").value.trim();
+      const regex = /^[+-]?\d+(\.\d+)?(e[+-]?\d+)?$/i;
+      const message = document.getElementById("message");
+
+      if (regex.test(input)) {
+        message.textContent = "Ya, ini adalah angka dalam notasi ilmiah.";
+        message.style.color = "lightgreen";
+      } else {
+        message.textContent = "Bukan angka yang valid.";
+        message.style.color = "orange";
+      }
+    }
+
+    function readFile(input) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        document.getElementById("fileResult").textContent = reader.result;
+      };
+      if (input.files[0]) {
+        reader.readAsText(input.files[0]);
+      }
+    }
+  </script>
+</body>
+</html>
